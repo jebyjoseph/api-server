@@ -71,99 +71,6 @@ app.post('/api/token', (req, res) => {
         }
     );
 
-    const fs = require('fs');
-
-    // =========================
-    // DATABASE JSON APIs
-    // =========================
-
-    // tokens.json
-    app.get('/api/tokens', (req, res) => {
-
-        try {
-
-            const data = fs.readFileSync(
-                './database/tokens.json',
-                'utf8'
-            );
-
-            res.json(JSON.parse(data));
-
-        } catch (err) {
-
-            console.log(err);
-
-            res.status(500).json({
-
-                success: false,
-                message: 'Failed to read tokens.json',
-                error: err.message
-
-            });
-
-        }
-
-    });
-
-
-    // uploads.json
-    app.get('/api/uploads-data', (req, res) => {
-
-        try {
-
-            const data = fs.readFileSync(
-                './database/uploads.json',
-                'utf8'
-            );
-
-            res.json(JSON.parse(data));
-
-        } catch (err) {
-
-            console.log(err);
-
-            res.status(500).json({
-
-                success: false,
-                message: 'Failed to read uploads.json',
-                error: err.message
-
-            });
-
-        }
-
-    });
-
-    // records.json
-    app.get('/api/records', (req, res) => {
-
-        try {
-
-            const data = fs.readFileSync(
-                'database/records.json',
-                'utf8'
-            );
-
-            res.json(JSON.parse(data));
-
-        } catch (err) {
-
-            res.status(500).json({
-                success: false,
-                error: err.message
-            });
-
-        }
-
-    });
-
-
-    // =========================
-    // OPTIONAL STATIC ACCESS
-    // =========================
-
-    app.use('/database', express.static('database'));
-
     const tokens = readJson('./database/tokens.json');
 
     tokens.push({
@@ -287,6 +194,14 @@ app.post('/api/create-record', verifyToken, (req, res) => {
         message: 'Record created successfully',
         data: record
     });
+});
+
+// GET ALL TOKENS
+app.get('/api/tokens', (req, res) => {
+
+    const tokens = readJson('./database/tokens.json');
+
+    res.json(tokens);
 });
 
 // GET ALL UPLOADS
