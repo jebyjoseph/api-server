@@ -83,7 +83,7 @@ app.post('/api/token', (req, res) => {
         try {
 
             const data = fs.readFileSync(
-                'database/tokens.json',
+                './database/tokens.json',
                 'utf8'
             );
 
@@ -91,9 +91,14 @@ app.post('/api/token', (req, res) => {
 
         } catch (err) {
 
+            console.log(err);
+
             res.status(500).json({
+
                 success: false,
+                message: 'Failed to read tokens.json',
                 error: err.message
+
             });
 
         }
@@ -107,7 +112,7 @@ app.post('/api/token', (req, res) => {
         try {
 
             const data = fs.readFileSync(
-                'database/uploads.json',
+                './database/uploads.json',
                 'utf8'
             );
 
@@ -115,15 +120,19 @@ app.post('/api/token', (req, res) => {
 
         } catch (err) {
 
+            console.log(err);
+
             res.status(500).json({
+
                 success: false,
+                message: 'Failed to read uploads.json',
                 error: err.message
+
             });
 
         }
 
     });
-
 
     // records.json
     app.get('/api/records', (req, res) => {
